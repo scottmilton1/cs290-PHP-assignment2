@@ -1,3 +1,7 @@
+<?php 
+  session_start();
+?>
+
 <!DOCTYPE html>
   <head>
     <!--
@@ -54,21 +58,56 @@
         </caption>
         <thead>
           <tr>
-            <th class="statusCol">status
-            <th class="manageCol">manage
-            <th class="nameCol">name
-            <th class="categoryCol">category
-            <th class="lengthCol">length
+            <th class="status-col">status
+            <th class="manage-col">manage
+            <th class="name-col">name
+            <th class="category-col">category
+            <th class="length-col">length
           </tr>
         </thead>
-        <tr>
-          <td class="statusCol">
-          <td class="manageCol">
-            <span>Check in</span>
-            <span>Delete</span>
-          <td class="nameCol">
-          <td class="categoryCol">
-          <td class="lengthCol">
+
+          <?php
+            // code to connect to MySQL database and retrieve values adapted from examples provided in "PHP and MySQL for Beginners" by Mark Lassoff pg. 419-420
+
+            define('DB_HOST', 'localhost');
+            define('DB_USER', 'root');
+            define('DB_PASSWORD', 'root');
+            define('DB_NAME', 'inventory');
+
+            $link = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
+
+            if ($link->connect_errno) {
+              echo("<br>Failed to connect to MySQL:(" . $link->connect_errno . ") " . $link->connect_error );
+              exit(0);
+            }
+
+            // get all entries from database
+            $sql = "SELECT * FROM inventory";
+            $rs = $link->query($sql);
+
+            if ($rs === false) {
+
+              trigger_error("Wrong SQL: " . $sql . " Error: " . $link->error, E_USER_ERROR);
+
+            } else {
+
+              // output all inventory items to table
+              while ($arr = $rs->fetch_array(MYSQLI_ASSOC)) {
+                echo '<tr><td class="status-col">';
+                if ($arr['rented'] == 0) 
+                  echo 'available';
+                else
+                  echo 'checked out';
+                echo '<td class="manage-col">
+                        <span>Check in</span>
+                        <span>Delete</span>';
+                echo '<td class="name-col">'.$arr['name'];
+                echo '<td class="category-col">'.$arr['category'];
+                echo '<td class="length-col">'.$arr['length'].'</tr>';
+              }
+            }
+          ?>
+
       </table>
 
     </section>
