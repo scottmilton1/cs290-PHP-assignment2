@@ -25,25 +25,50 @@
       <form action="#" method="post">
         <fieldset>
           <p>
+            <label>
+              Name:
+              <input name="name" placeholder="enter video title">
+            </label>
+            <label>
+              Category:
+              <input name="category" placeholder="enter category">
+            </label>
+            <label>
+              Length:
+              <input name="length" placeholder="enter length">
+            </label>
+            <br>
             <button id="submit-button" type="button">
-              Add video
+              Add New Video
+            </button>
+            <button id="delete-all" type="button">
+              Delete All Videos
             </button>
           </p>
         </fieldset>
       </form>
 
       <table id="video-list">
+        <caption>
+          Current Inventory
+        </caption>
+        <thead>
+          <tr>
+            <th class="statusCol">status
+            <th class="manageCol">manage
+            <th class="nameCol">name
+            <th class="categoryCol">category
+            <th class="lengthCol">length
+          </tr>
+        </thead>
         <tr>
-          <th>status
-          <th>manage
-          <th>category
-          <th>length
-        </tr>
-        <tr>
-          <td>
-          <td>
-          <td>
-          <td>
+          <td class="statusCol">
+          <td class="manageCol">
+            <span>Check in</span>
+            <span>Delete</span>
+          <td class="nameCol">
+          <td class="categoryCol">
+          <td class="lengthCol">
       </table>
 
     </section>

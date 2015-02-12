@@ -5,6 +5,7 @@ body {
 
 button {
   font-size: 80%;
+  margin: 1em 1em 0 0.5em;
   padding: 0.5em 1em;
   text-align: center;
 }
@@ -31,12 +32,16 @@ h1 {
   text-align: center;
 }
 
+input {
+  margin: 0 1em 0 0;
+}
+
 /* custom button styles */
 span { 
   background: white;
   border: 1px black solid;
-  padding: .5em 1em;
-  margin: 0 1em 0 0;
+  padding: .2em;
+  margin: 0 auto;
 }
 
 span:hover {
@@ -58,6 +63,10 @@ tr, th, td {
   margin: 0;
 }
 
+tr {
+  max-width: 52em;
+}
+
 td {
   padding: 1em;
 }
@@ -67,4 +76,30 @@ th {
   border: 0;
   font: 1em normal;
   padding: 0.2em;
+}
+
+.statusCol {
+  width: 4em;
+}
+
+.manageCol {
+  min-width: 8em;
+  text-align: center;
+}
+
+.nameCol {
+  width: 40%;
+/*  max-width: 20em;
+  min-width: 4em;*/
+}
+
+.categoryCol {
+  width: 20%;
+/*  max-width: 14em;
+  min-width: 4em;
+*/
+}
+
+.lengthCol {
+  width: 4em;
 }
