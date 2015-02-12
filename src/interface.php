@@ -42,7 +42,7 @@
               <input name="length" placeholder="enter length">
             </label>
             <br>
-            <button id="submit-button" type="button">
+            <button id="add-button" type="button">
               Add New Video
             </button>
             <button id="delete-all" type="button">
@@ -99,8 +99,8 @@
                 else
                   echo 'checked out';
                 echo '<td class="manage-col">
-                        <span>Check in</span>
-                        <span>Delete</span>';
+                        <span id="c'.$arr['id'].'" onclick="toggleStatus(this);">Check in</span>
+                        <span id="d'.$arr['id'].'" onclick="deleteTitle(this);">Delete</span>';
                 echo '<td class="name-col">'.$arr['name'];
                 echo '<td class="category-col">'.$arr['category'];
                 echo '<td class="length-col">'.$arr['length'].'</tr>';
