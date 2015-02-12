@@ -1,0 +1,70 @@
+
+body {
+  font-size: 1em;
+}
+
+button {
+  font-size: 80%;
+  padding: 0.5em 1em;
+  text-align: center;
+}
+
+fieldset {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+}
+
+fieldset p {
+  text-align: center;
+  width: 100%;
+}
+
+form {
+  border: none;
+  margin: 0 auto;
+  padding: 0;
+  width: 98%;
+}
+
+h1 {
+  text-align: center;
+}
+
+/* custom button styles */
+span { 
+  background: white;
+  border: 1px black solid;
+  padding: .5em 1em;
+  margin: 0 1em 0 0;
+}
+
+span:hover {
+  cursor: pointer;
+}
+
+/* table styles */
+table {
+  background: #eee;
+  border: 2px solid #888;
+  margin: 1em auto;
+  padding: 0.5em;
+  width: 98%;
+}
+
+tr, th, td {
+  background: #cfc;
+  border: 1px solid #0f0;
+  margin: 0;
+}
+
+td {
+  padding: 1em;
+}
+
+th {
+  background: white;
+  border: 0;
+  font: 1em normal;
+  padding: 0.2em;
+}
