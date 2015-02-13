@@ -9,11 +9,43 @@ function init() {
 
 
 function deleteAll() {
-  confirm("Do you really want to delete all videos in the database?");
-  // if user confirms,
-  // this will loop over all elements in the database / array and remove them.
-  // possibly by calling deleteTitle() for each row
-  // also the rows must be removed from the DOM without refreshing the page
+  // confirm this operation in case user hit button by accident
+  if (confirm("Do you really want to delete all videos in the database?")) {
+
+    var listBody = document.getElementById("list-body");
+    var xmlhttp;
+
+    if (window.XMLHttpRequest) {
+      xmlhttp = new XMLHttpRequest();
+    } else {
+      xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+    }
+
+    xmlhttp.onreadystatechange = function() {
+      if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+
+        var txt = xmlhttp.responseText;
+        alert(txt);
+
+        if (txt != "All videos deleted!")
+          exit(0);
+   
+      } else if (xmlhttp.readyState == 4 && xmlhttp.status != 200) {
+        alert("Problem connecting to server! Error code: " +  xmlhttp.status);
+        return;
+      }
+    }
+
+    // request that will remove the row from the db
+    xmlhttp.open("GET", "delete_all.php?rand=" + Math.random(), true);
+    xmlhttp.send();
+
+    // remove all table rows from DOM
+    // I found help here: https://developer.mozilla.org/en-US/docs/Web/API/Node.childNodes
+    while (listBody.firstChild) {
+      listBody.removeChild(listBody.firstChild);
+    }
+  }
 }
 
 
