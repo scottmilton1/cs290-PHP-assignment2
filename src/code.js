@@ -55,7 +55,21 @@ function deleteTitle(ref) {
 
 
 function toggleStatus(ref) {
-  alert("Video checked in / out!");
+
   // read current status from database and update it
   // change text in table row to reflect new status
+
+  // parent is <td>, grandparent is <tr>, first child is the status column <td>
+  var statusData = ref.parentNode.parentNode.firstChild;
+
+  // toggle the value in the table - better to read the new value from the db and make it match here 
+  if (statusData.innerHTML == "available") {
+    statusData.innerHTML = "checked out";
+    ref.innerHTML = "Check in";
+    alert("Video checked out!");
+  } else {
+    statusData.innerHTML = "available";
+    ref.innerHTML = "Check out";
+    alert("Video checked in!");
+  }
 }

@@ -166,7 +166,7 @@
                 else
                   echo 'checked out';
                 echo '<td class="manage-col">
-                        <span id="c'.$arr['id'].'" onclick="toggleStatus(this);">Check in</span>
+                        <span id="c'.$arr['id'].'" onclick="toggleStatus(this);">Check out</span>
                         <span id="d'.$arr['id'].'" onclick="deleteTitle(this);">Delete</span>';
                 echo '<td class="name-col">'.$arr['name'];
                 echo '<td class="category-col">'.$arr['category'];
