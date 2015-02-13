@@ -63,19 +63,6 @@
 
       <?php
 
-        // code to connect to MySQL database and retrieve values adapted from examples provided in "PHP and MySQL for Beginners" by Mark Lassoff pg. 419-420
-        define('DB_HOST', 'localhost');
-        define('DB_USER', 'root');
-        define('DB_PASSWORD', 'root');
-        define('DB_NAME', 'inventory');
-
-        $link = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
-
-        if ($link->connect_errno) {
-          echo('<p class="red">Failed to connect to MySQL:('.$link->connect_errno.') '.$link->connect_error.'</p>');
-          exit(0);
-        }
-
         $add = ($_POST['add'] == 'yes');
         
         if ($add) {
@@ -97,6 +84,18 @@
             echo '<p class="red">Length must be an integer value.</p>';
 
           } else { // if all valid,
+
+            define('DB_HOST', 'localhost');
+            define('DB_USER', 'root');
+            define('DB_PASSWORD', 'root');
+            define('DB_NAME', 'inventory');
+
+            $link = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
+
+            if ($link->connect_errno) {
+              echo('<p class="red">Failed to connect to MySQL</p>');
+              exit(0);
+            }
 
             // add video to database
             $sql = 'INSERT INTO inventory VALUES ("", "'.$name.'", "'.$category.'", "'.$length.'", "0");';
@@ -155,8 +154,7 @@
 
             if ($rs === false) {
 
-              echo '<script>alert("Wrong SQL: '.$sql.' Error: '.$link->error, E_USER_ERROR.'");</script>'; // ?will this work?
-              // trigger_error("Wrong SQL: " . $sql . " Error: " . $link->error, E_USER_ERROR);
+              echo '<script>alert("Wrong SQL: '.$sql.' Error: '.$link->error, E_USER_ERROR.'");</script>'; 
 
             } else {
 
@@ -176,7 +174,7 @@
               }
 
               // close connection to database
-              $link->close;
+              $link->close();
             }
           ?>
         </tbody>
