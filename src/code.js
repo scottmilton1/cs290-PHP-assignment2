@@ -17,9 +17,15 @@ function deleteAll() {
 
 
 function deleteTitle(ref) {
-  alert("Video Deleted!");
+
+  var listBody = document.getElementById("list-body");
+
   // delete video from database
-  // remove corresponding page elements from DOM
+
+  // remove corresponding row from table (parent is the td, grandparent is row)
+  var parentRow = listBody.removeChild(ref.parentNode.parentNode);
+
+  alert("Video Deleted!");
 }
 
 

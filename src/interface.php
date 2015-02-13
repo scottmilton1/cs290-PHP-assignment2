@@ -87,10 +87,10 @@
             echo '<p class="red">Name is a required field.
                 Please enter the video name. </p>';
 
-          // check if 
-          } elseif (!empty($category) && !(ctype_alpha($category))) {
-            echo '<p class="red">Category must be alphabetic.
-             No numbers, spaces, or special characters, please.</p>';
+          // check that category does not contain numbers
+          } elseif (!empty($category) && !empty(preg_match('/\d+/', $category))) {
+            echo '<p class="red">Category should be alphabetic.
+             No numbers please.</p>';
 
           // check to make sure length is numeric and not a float (if not empty since this is not a required field)
           } elseif (!empty($length) && !(is_numeric($length)) && (!is_float($length += 0))) {
@@ -105,15 +105,19 @@
 
             if ($rs === false) {
               // if unable to insert values in db, output custom error message
-              echo '<p class="red">Wrong SQL: Unable to add video to database</p>';
+              echo '<p class="red">Unable to add video to database</p>';
               exit(0);
             } 
 
             // clear variable values for the added video
-            $_POST['name'] = $name = '';
-            $_POST['category'] = $category = '';
-            $_POST['length'] = $length = '';
-            $_POST['add'] = $add = '';
+            unset($_POST['name']);
+            $name = '';
+            unset($_POST['category']);
+            $category = '';
+            unset($_POST['length']);
+            $length = '';
+            unset($_POST['add']);
+            $add = 'no';
 
             // clear values of form text boxes 
             echo '<script>
@@ -141,6 +145,7 @@
             <th class="length-col">length
           </tr>
         </thead>
+        <tbody id="list-body">
 
           <?php
 
@@ -174,7 +179,7 @@
               $link->close;
             }
           ?>
-
+        </tbody>
       </table>
 
     </section>
