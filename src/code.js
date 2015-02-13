@@ -7,6 +7,7 @@ function init() {
 }
 
 
+
 function deleteAll() {
   confirm("Do you really want to delete all videos in the database?");
   // if user confirms,
@@ -14,6 +15,7 @@ function deleteAll() {
   // possibly by calling deleteTitle() for each row
   // also the rows must be removed from the DOM without refreshing the page
 }
+
 
 
 function deleteTitle(ref) {
@@ -54,22 +56,49 @@ function deleteTitle(ref) {
 }
 
 
-function toggleStatus(ref) {
 
-  // read current status from database and update it
-  // change text in table row to reflect new status
+function toggleStatus(ref) {
 
   // parent is <td>, grandparent is <tr>, first child is the status column <td>
   var statusData = ref.parentNode.parentNode.firstChild;
+  var status = (statusData.innerHTML == "available") ? 1 : 0;
 
-  // toggle the value in the table - better to read the new value from the db and make it match here 
+  // remove the letter from the button id to get the correspondng db row id
+  var id = ref.id.slice(1); 
+
+  var xmlhttp;
+
+  if (window.XMLHttpRequest) {
+    xmlhttp = new XMLHttpRequest();
+  } else {
+    xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+  }
+
+  xmlhttp.onreadystatechange = function() {
+    if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+
+      var txt = xmlhttp.responseText;
+        alert(txt);
+
+      if (txt == "Unable to update database.")
+        exit(0);
+
+    } else if (xmlhttp.readyState == 4 && xmlhttp.status != 200) {
+      alert("Problem connecting to server! Error code: " +  xmlhttp.status);
+      return;
+    }
+  }
+
+  // update status in database
+  xmlhttp.open("GET", "update.php?id=" + id + "&status=" + status + "&rand=" + Math.random(), true);
+  xmlhttp.send();
+
+  // change text in table row to reflect new status
   if (statusData.innerHTML == "available") {
     statusData.innerHTML = "checked out";
     ref.innerHTML = "Check in";
-    alert("Video checked out!");
   } else {
     statusData.innerHTML = "available";
     ref.innerHTML = "Check out";
-    alert("Video checked in!");
   }
 }
