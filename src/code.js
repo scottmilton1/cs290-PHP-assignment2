@@ -3,16 +3,17 @@ window.onload = init;
 
 function init() {
   // attach event handlers to form buttons
-  document.getElementById("add-button").onclick = function() { addVideo(); };
+  // document.getElementById("add-button").onclick = function() { addVideo(); };
   document.getElementById("delete-all").onclick = function() { deleteAll(); };
 }
 
 
-function addVideo() {
-  alert("Video Added!");
-  // add video to database
-  // create table elements and append to DOM
-}
+// function addVideo() {
+//   alert("Video Added!");
+//   // check for invalid values (here or in PHP?)
+//   // add video to database
+//   // create table elements and append to DOM
+// }
 
 
 function deleteAll() {

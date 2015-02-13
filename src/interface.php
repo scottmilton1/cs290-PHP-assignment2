@@ -1,5 +1,8 @@
 <?php 
   session_start();
+  $name = $_POST['name'];
+  $category = $_POST['category'];
+  $length = $_POST['length'];
 ?>
 
 <!DOCTYPE html>
@@ -26,31 +29,66 @@
         Video Store Inventory System
       </h1>
 
-      <form action="#" method="post">
+      <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>"
+        method="post">
         <fieldset>
           <p>
             <label>
               Name:
-              <input name="name" placeholder="enter video title">
+              <input name="name" placeholder="enter video title"
+                <? echo 'value="'.$name.'"' ?> >
             </label>
             <label>
               Category:
-              <input name="category" placeholder="enter category">
+              <input name="category" placeholder="enter category"
+                <? echo 'value="'.$category.'"' ?> >
             </label>
             <label>
               Length:
-              <input name="length" placeholder="enter length">
+              <input name="length" placeholder="enter length"
+                <? echo 'value="'.$length.'"' ?> >
             </label>
             <br>
-            <button id="add-button" type="button">
+            <button id="add-button" type="submit">
               Add New Video
             </button>
             <button id="delete-all" type="button">
               Delete All Videos
             </button>
+            <input type="hidden" name="add" value="yes" />
           </p>
         </fieldset>
       </form>
+
+
+      <?php
+        $add = ($_POST['add'] == 'yes');
+        
+        if ($add) {
+          if (empty($name)) {
+            echo '<p class="red">Name is a required field.
+                Please enter the video name. </p>';
+
+          // check to make sure category is alpha
+          // check to make sure length is numeric and converts to an integer
+
+          } else { // if all valid 
+            // add video to database
+
+
+            // clear values of form text boxes and corresponding variables
+            $_POST['name'] = $name = '';
+            $_POST['category'] = $category = '';
+            $_POST['length'] = $length = '';
+            $_POST['add'] = $add = '';
+
+            // clear in DOM too or reposition this somehow to be above those form fileds 
+
+            // output success message
+            echo '<p class="green">Video added!</p>'; // give this a hide button
+          }
+        }
+      ?>
 
       <table id="video-list">
         <caption>

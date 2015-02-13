@@ -16,11 +16,6 @@ fieldset {
   width: 100%;
 }
 
-fieldset p {
-  text-align: center;
-  width: 100%;
-}
-
 form {
   border: none;
   margin: 0 auto;
@@ -36,7 +31,27 @@ input {
   margin: 0 1em 0 0;
 }
 
-/* custom button styles */
+p {
+  text-align: center;
+  width: 100%;
+}
+
+.green, .red {
+  color: black;
+  font-weight: bold;
+  margin: 1em auto;
+  padding: 1em 0;
+  width: 98%;
+}
+
+.green {
+  background: lime;
+}
+
+.red {
+  background: red;
+}
+
 span { 
   background: white;
   border: 1px black solid;
@@ -89,15 +104,10 @@ th {
 
 .name-col {
   width: 40%;
-/*  max-width: 20em;
-  min-width: 4em;*/
 }
 
 .category-col {
   width: 20%;
-/*  max-width: 14em;
-  min-width: 4em;
-*/
 }
 
 .length-col {
