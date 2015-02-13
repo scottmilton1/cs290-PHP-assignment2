@@ -1,4 +1,10 @@
 <?php 
+  /*
+    CS290 PHP MySQL Assignment
+    Author: Scott Milton
+    Date: 2/15/15
+    Description:  This project is a simple interface to work with a database that tracks a store's inventory of videos.
+  */
   session_start();
   $name = $_POST['name'];
   $category = $_POST['category'];
@@ -7,12 +13,6 @@
 
 <!DOCTYPE html>
   <head>
-    <!--
-      CS290 PHP MySQL Assignment
-      Author: Scott Milton
-      Date: 2/15/15
-      Description:  This project is a simple interface to work with a database that tracks a store's inventory of videos.
-    -->
     <meta charset="UTF-8">
 
     <title>
@@ -29,23 +29,24 @@
         Video Store Inventory System
       </h1>
 
+      <!-- strip special characters to improve security -->
       <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>"
         method="post">
         <fieldset>
           <p>
             <label>
               Name:
-              <input name="name" placeholder="enter video title"
+              <input id="name" name="name" placeholder="enter video title"
                 <? echo 'value="'.$name.'"' ?> >
             </label>
             <label>
               Category:
-              <input name="category" placeholder="enter category"
+              <input id="category" name="category" placeholder="enter category"
                 <? echo 'value="'.$category.'"' ?> >
             </label>
             <label>
               Length:
-              <input name="length" placeholder="enter length"
+              <input id="length" name="length" placeholder="enter length"
                 <? echo 'value="'.$length.'"' ?> >
             </label>
             <br>
@@ -60,32 +61,47 @@
         </fieldset>
       </form>
 
-
       <?php
         $add = ($_POST['add'] == 'yes');
         
         if ($add) {
+
+          // strip excess white space - found help here: http://php.net/manual/en/function.preg-replace.php
+          $name = preg_replace('/\s\s+/', ' ', $name);
+
           if (empty($name)) {
             echo '<p class="red">Name is a required field.
                 Please enter the video name. </p>';
 
-          // check to make sure category is alpha
-          // check to make sure length is numeric and converts to an integer
+          // check if 
+          } elseif (!empty($category) && !(ctype_alpha($category))) {
+            echo '<p class="red">Category must be alphabetic.
+             No numbers, spaces, or special characters, please.</p>';
+
+          // check to make sure length is numeric and not a float (if not empty since this is not a required field)
+          } elseif (!empty($length) && !(is_numeric($length)) && (!is_float($length += 0))) {
+            echo '<p class="red">Length must be an integer value.</p>';
 
           } else { // if all valid 
             // add video to database
 
+            // ADD CODE HERE
 
-            // clear values of form text boxes and corresponding variables
+            // clear variable values for the added video
             $_POST['name'] = $name = '';
             $_POST['category'] = $category = '';
             $_POST['length'] = $length = '';
             $_POST['add'] = $add = '';
 
-            // clear in DOM too or reposition this somehow to be above those form fileds 
+            // clear values of form text boxes 
+            echo '<script>
+                    document.getElementById("name").value="";
+                    document.getElementById("category").value="";
+                    document.getElementById("length").value="";
+                  </script>';
 
             // output success message
-            echo '<p class="green">Video added!</p>'; // give this a hide button
+            echo '<p class="green">Video added!</p>'; // this would be better with a hide button
           }
         }
       ?>
@@ -106,7 +122,6 @@
 
           <?php
             // code to connect to MySQL database and retrieve values adapted from examples provided in "PHP and MySQL for Beginners" by Mark Lassoff pg. 419-420
-
             define('DB_HOST', 'localhost');
             define('DB_USER', 'root');
             define('DB_PASSWORD', 'root');
