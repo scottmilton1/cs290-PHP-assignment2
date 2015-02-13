@@ -62,6 +62,20 @@
       </form>
 
       <?php
+
+        // code to connect to MySQL database and retrieve values adapted from examples provided in "PHP and MySQL for Beginners" by Mark Lassoff pg. 419-420
+        define('DB_HOST', 'localhost');
+        define('DB_USER', 'root');
+        define('DB_PASSWORD', 'root');
+        define('DB_NAME', 'inventory');
+
+        $link = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
+
+        if ($link->connect_errno) {
+          echo('<p class="red">Failed to connect to MySQL:('.$link->connect_errno.') '.$link->connect_error.'</p>');
+          exit(0);
+        }
+
         $add = ($_POST['add'] == 'yes');
         
         if ($add) {
@@ -82,10 +96,18 @@
           } elseif (!empty($length) && !(is_numeric($length)) && (!is_float($length += 0))) {
             echo '<p class="red">Length must be an integer value.</p>';
 
-          } else { // if all valid 
-            // add video to database
+          } else { // if all valid,
 
-            // ADD CODE HERE
+            // add video to database
+            $sql = 'INSERT INTO inventory VALUES ("", "'.$name.'", "'.$category.'", "'.$length.'", "0");';
+
+            $rs = $link->query($sql);
+
+            if ($rs === false) {
+              // if unable to insert values in db, output custom error message
+              echo '<p class="red">Wrong SQL: Unable to add video to database</p>';
+              exit(0);
+            } 
 
             // clear variable values for the added video
             $_POST['name'] = $name = '';
@@ -121,18 +143,6 @@
         </thead>
 
           <?php
-            // code to connect to MySQL database and retrieve values adapted from examples provided in "PHP and MySQL for Beginners" by Mark Lassoff pg. 419-420
-            define('DB_HOST', 'localhost');
-            define('DB_USER', 'root');
-            define('DB_PASSWORD', 'root');
-            define('DB_NAME', 'inventory');
-
-            $link = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
-
-            if ($link->connect_errno) {
-              echo("<br>Failed to connect to MySQL:(" . $link->connect_errno . ") " . $link->connect_error );
-              exit(0);
-            }
 
             // get all entries from database
             $sql = "SELECT * FROM inventory";
@@ -140,7 +150,8 @@
 
             if ($rs === false) {
 
-              trigger_error("Wrong SQL: " . $sql . " Error: " . $link->error, E_USER_ERROR);
+              echo '<script>alert("Wrong SQL: '.$sql.' Error: '.$link->error, E_USER_ERROR.'");</script>'; // ?will this work?
+              // trigger_error("Wrong SQL: " . $sql . " Error: " . $link->error, E_USER_ERROR);
 
             } else {
 
@@ -158,6 +169,9 @@
                 echo '<td class="category-col">'.$arr['category'];
                 echo '<td class="length-col">'.$arr['length'].'</tr>';
               }
+
+              // close connection to database
+              $link->close;
             }
           ?>
 

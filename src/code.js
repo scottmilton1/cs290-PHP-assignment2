@@ -2,18 +2,9 @@
 window.onload = init; 
 
 function init() {
-  // attach event handlers to form buttons
-  // document.getElementById("add-button").onclick = function() { addVideo(); };
+  // attach event handler to form button
   document.getElementById("delete-all").onclick = function() { deleteAll(); };
 }
-
-
-// function addVideo() {
-//   alert("Video Added!");
-//   // check for invalid values (here or in PHP?)
-//   // add video to database
-//   // create table elements and append to DOM
-// }
 
 
 function deleteAll() {
