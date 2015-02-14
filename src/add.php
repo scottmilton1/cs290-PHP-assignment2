@@ -66,7 +66,8 @@
     $category = '';
     $length = '';
 
-    echo 'Video added!';
+    // get the id of the new database record and return it along with success message
+    echo 'Video added!' . $conn->insert_id;
   }
 
   $conn->close();
