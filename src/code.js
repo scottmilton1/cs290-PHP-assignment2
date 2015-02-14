@@ -176,7 +176,7 @@ function toggleStatus(ref) {
   // change text in table row to reflect new status
   if (statusData.innerHTML == "available") {
     statusData.innerHTML = "checked out";
-    ref.innerHTML = "Check in";
+    ref.innerHTML = "&nbsp;Check in&nbsp;";
   } else {
     statusData.innerHTML = "available";
     ref.innerHTML = "Check out";

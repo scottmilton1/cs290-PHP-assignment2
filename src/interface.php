@@ -143,13 +143,19 @@
                 // output all inventory items to table
                 while ($arr = $rs->fetch_array(MYSQLI_ASSOC)) {
                   echo '<tr><td class="status-col">';
-                  if ($arr['rented'] == 0) 
+                  if ($arr['rented'] == 0) {
                     echo 'available';
-                  else
+                  } else {
                     echo 'checked out';
+                  }
                   echo '<td class="manage-col">
-                          <span id="c'.$arr['id'].'" onclick="toggleStatus(this);">Check out</span>
-                          <span id="d'.$arr['id'].'" onclick="deleteTitle(this);">Delete</span>';
+                          <span id="c'.$arr['id'].'" onclick="toggleStatus(this);">';
+                  if ($arr['rented'] == 0) {
+                    echo 'Check out';
+                  } else {
+                    echo '&nbsp;Check in&nbsp;';
+                  }
+                  echo '</span>&nbsp;<span id="d'.$arr['id'].'" onclick="deleteTitle(this);">Delete</span>';
                   echo '<td class="name-col">'.$arr['name'];
                   echo '<td class="category-col">'.$arr['category'];
                   echo '<td class="length-col">'.$arr['length'].'</tr>';
