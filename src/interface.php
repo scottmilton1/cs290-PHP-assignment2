@@ -5,7 +5,6 @@
     Date: 2/15/15
     Description:  This project is a simple interface to work with a database that tracks a store's inventory of videos.
   */
-  session_start();
   $name = (isset($_GET['name'])) ? $_GET['name'] : '';
   $category = (isset($_GET['category'])) ? $_GET['category'] : '';
   $length = (isset($_GET['length'])) ? $_GET['length'] : '';
@@ -56,75 +55,8 @@
             <button id="delete-all" type="button">
               Delete All Videos
             </button>
-            <input type="hidden" name="add" value="no" />
           </p>
         </fieldset>
-
-        <?php
-
-          define('DB_HOST', 'localhost');
-          define('DB_USER', 'root');
-          define('DB_PASSWORD', 'root');
-          define('DB_NAME', 'inventory');
-
-          $link = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
-
-          if ($link->connect_errno) {
-            echo('<p class="red">Failed to connect to MySQL</p>');
-            exit(0);
-          }
-
-          $add = (isset($_GET['add'])) ? $_GET['add'] : 'no';
-
-          if ($add === 'yes') {
-
-            // strip excess white space - found help here: http://php.net/manual/en/function.preg-replace.php
-            $name = preg_replace('/\s\s+/', ' ', $name);
-
-            if (empty($name)) {
-              echo '<p class="red">Name is a required field.
-                  Please enter the video name. </p>';
-
-            // check that category does not contain numbers
-            } elseif (!empty($category) && !empty(preg_match('/\d+/', $category))) {
-              echo '<p class="red">Category should be alphabetic.
-               No numbers please.</p>';
-
-            // check to make sure length is numeric and not a float (if not empty since this is not a required field)
-            } elseif (!empty($length) && !(is_numeric($length)) && (!is_float($length += 0))) {
-              echo '<p class="red">Length must be an integer value.</p>';
-
-            } else { // if all valid,
-
-              // add video to database
-              $sql = 'INSERT INTO inventory VALUES ("", "'.$name.'", "'.$category.'", "'.$length.'", "0");';
-
-              $rs = $link->query($sql);
-
-              if ($rs === false) {
-                // if unable to insert values in db, output custom error message
-                echo '<p class="red">Unable to add video to database</p>';
-                exit(0);
-              } 
-
-              // clear variable values for the added video
-              $name = '';
-              $category = '';
-              $length = '';
-              $add = 'no';
-
-              // clear values of form text boxes 
-              echo '<script>
-                      document.getElementById("name").value="";
-                      document.getElementById("category").value="";
-                      document.getElementById("length").value="";
-                    </script>';
-
-              // output success message
-              echo '<p class="green">Video added!</p>'; // this would be better with a hide button or if it automatically went away / was replaced after the next user action
-            }
-          }
-        ?>
 
         <table id="video-list">
           <caption>
@@ -138,6 +70,18 @@
                   <select name="show" id="show" size="1">
 
                     <?php
+
+                      define('DB_HOST', 'localhost');
+                      define('DB_USER', 'root');
+                      define('DB_PASSWORD', 'root');
+                      define('DB_NAME', 'inventory');
+
+                      $link = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
+
+                      if ($link->connect_errno) {
+                        echo('<p class="red">Failed to connect to MySQL</p>');
+                        exit(0);
+                      }
 
                       // read current filter to set drop-down option as selected
                       if (isset($_GET['show'])) 

@@ -13,19 +13,61 @@
     exit(0);
   }
 
-  // // create query to delete all table rows
-  // $sql = 'DELETE FROM inventory;';
-  // $rs = $conn->query($sql);
+  $name = (isset($_GET['name'])) ? $_GET['name'] : '';
+  $category = (isset($_GET['category'])) ? $_GET['category'] : '';
+  $length = (isset($_GET['length'])) ? $_GET['length'] : '';
 
-  // // check that query was successful
-  // if ($rs === false) {
-  //   // return response that indicates failure
-  //   echo 'Unable to update database.';
-  // } else {
-  //   // return respons that indicates success
-  //   echo 'All videos deleted!';
-  // }
+  $name = preg_replace('/\s\s+/', ' ', $name);
 
-  // close connection to database
+  if (empty($name)) {
+    echo 'Name is a required field. Please enter the video name.';
+
+  // check that category does not contain numbers
+  } elseif (!empty($category) && !empty(preg_match('/\d+/', $category))) {
+    echo 'Category should be alphabetic. No numbers please.';
+
+  // if length provided, but not numeric or given as a float, display error
+  } elseif (!empty($length) && (!is_numeric($length) || is_float($length += 0))) {
+    echo 'Length must be an integer value.';
+
+  } else { // if all valid,
+
+    // check to see if video title to add already exists in database
+    $sql = 'SELECT * FROM inventory WHERE name = "'.$name.'"';
+
+    $rs = $conn->query($sql);
+
+    if ($rs === false) {
+      // if unable to insert values in db, output custom error message
+      echo 'Unable to add video to database.';
+      exit(0);
+    } 
+
+    $arr = $rs->fetch_array(MYSQLI_ASSOC);
+
+    if (count($arr) >= 1) {
+      echo 'That video is already in the database!';
+      exit(0);
+    }
+
+    // add video to database
+    $sql = 'INSERT INTO inventory VALUES ("", "'.$name.'", "'.$category.'", "'.$length.'", "0");';
+
+    $rs = $conn->query($sql);
+
+    if ($rs === false) {
+      // if unable to insert values in db, output custom error message
+      echo 'Unable to add video to database.';
+      exit(0);
+    } 
+
+    // clear variable values for the added video
+    $name = '';
+    $category = '';
+    $length = '';
+
+    echo 'Video added!';
+  }
+
   $conn->close();
 ?>
