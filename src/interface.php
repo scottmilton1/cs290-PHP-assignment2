@@ -50,7 +50,7 @@
                 <? echo 'value="'.$length.'"' ?> >
             </label>
             <br>
-            <button id="add-button" type="submit">
+            <button id="add-button" type="button">
               Add New Video
             </button>
             <button id="delete-all" type="button">
@@ -75,7 +75,7 @@
           exit(0);
         }
 
-        $add = ($_POST['add'] == 'yes');
+        $add = ($_POST['add'] == 'no');
         
         if ($add) {
 
@@ -138,44 +138,48 @@
         <thead>
           <tr>
             <th colspan="5">
-              <label>Filter by category: </label>
-              <select name="filter" id="filter" size="1">                      
+              <fieldset id="filter-field">
+                <label>Filter by category: </label>
+                <select name="show" id="show" size="1">
 
-                <?php
+                  <?php
 
-                  // read current filter to set drop-down option as selected
-                  if (isset($_GET['show'])) 
-                    $show = $_GET['show'];
-                  else
-                    $show = 'all';
+                    // read current filter to set drop-down option as selected
+                    if (isset($_POST['show'])) 
+                      $show = $_POST['show']; // this will be a number in an array of options, no?
+                    else
+                      $show = 'all';
 
-                  echo '<option value="all"';
-                  if ($show === 'all')
-                    echo ' selected="selected"';
-                  echo '>ALL CATEGORIES</option>';
+                    echo '<script>alert("show = '.$show.'");</script>';
 
-                  // get all entries from database
-                  $sql = "SELECT inventory.category FROM inventory GROUP BY category";
-                  $rs = $link->query($sql);
+                    echo '<option value="all"';
+                    if ($show === 'all')
+                      echo ' selected="selected"';
+                    echo '>ALL CATEGORIES</option>';
 
-                  if ($rs === false) {
-                    echo '<script>alert("Unable to link to SQL database.");</script>'; 
+                    // get all entries from database
+                    $sql = "SELECT inventory.category FROM inventory GROUP BY category";
+                    $rs = $link->query($sql);
 
-                  } else {
-                    // output all inventory items to table
-                    while ($arr = $rs->fetch_array(MYSQLI_ASSOC)) {
-                      echo '<option value="'.$arr['category'].'"';
-                      if ($show == $arr['category'])
-                        echo ' selected="selected"';
-                      echo '>'.$arr['category'].'</option>';
+                    if ($rs === false) {
+                      echo '<script>alert("Unable to link to SQL database.");</script>'; 
+
+                    } else {
+                      // output all inventory items to table
+                      while ($arr = $rs->fetch_array(MYSQLI_ASSOC)) {
+                        echo '<option value="'.$arr['category'].'"';
+                        if ($show == $arr['category'])
+                          echo ' selected="selected"';
+                        echo '>'.$arr['category'].'</option>';
+                      }
                     }
-                  }
-                ?>
+                  ?>
 
-              </select>
-              <span id="filterButton">
-                Update
-              </span>
+                </select>
+                <button id="filter-button" type="submit">
+                  Update
+                </button>
+              </fieldset>
           <tr>
             <th class="status-col">status
             <th class="manage-col">manage
