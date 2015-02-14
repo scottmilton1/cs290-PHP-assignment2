@@ -10,6 +10,10 @@ button {
   text-align: center;
 }
 
+button:hover {
+  cursor: pointer;
+}
+
 fieldset {
   margin: 0;
   padding: 0;
@@ -61,6 +65,11 @@ span {
 
 span:hover {
   cursor: pointer;
+}
+
+#filterButton {
+  font-size: 80%;
+  padding: .1em .5em;
 }
 
 /* table styles */

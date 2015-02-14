@@ -63,6 +63,18 @@
 
       <?php
 
+        define('DB_HOST', 'localhost');
+        define('DB_USER', 'root');
+        define('DB_PASSWORD', 'root');
+        define('DB_NAME', 'inventory');
+
+        $link = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
+
+        if ($link->connect_errno) {
+          echo('<p class="red">Failed to connect to MySQL</p>');
+          exit(0);
+        }
+
         $add = ($_POST['add'] == 'yes');
         
         if ($add) {
@@ -84,18 +96,6 @@
             echo '<p class="red">Length must be an integer value.</p>';
 
           } else { // if all valid,
-
-            define('DB_HOST', 'localhost');
-            define('DB_USER', 'root');
-            define('DB_PASSWORD', 'root');
-            define('DB_NAME', 'inventory');
-
-            $link = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
-
-            if ($link->connect_errno) {
-              echo('<p class="red">Failed to connect to MySQL</p>');
-              exit(0);
-            }
 
             // add video to database
             $sql = 'INSERT INTO inventory VALUES ("", "'.$name.'", "'.$category.'", "'.$length.'", "0");';
@@ -137,12 +137,51 @@
         </caption>
         <thead>
           <tr>
+            <th colspan="5">
+              <label>Filter by category: </label>
+              <select name="filter" id="filter" size="1">                      
+
+                <?php
+
+                  // read current filter to set drop-down option as selected
+                  if (isset($_GET['show'])) 
+                    $show = $_GET['show'];
+                  else
+                    $show = 'all';
+
+                  echo '<option value="all"';
+                  if ($show === 'all')
+                    echo ' selected="selected"';
+                  echo '>ALL CATEGORIES</option>';
+
+                  // get all entries from database
+                  $sql = "SELECT inventory.category FROM inventory GROUP BY category";
+                  $rs = $link->query($sql);
+
+                  if ($rs === false) {
+                    echo '<script>alert("Unable to link to SQL database.");</script>'; 
+
+                  } else {
+                    // output all inventory items to table
+                    while ($arr = $rs->fetch_array(MYSQLI_ASSOC)) {
+                      echo '<option value="'.$arr['category'].'"';
+                      if ($show == $arr['category'])
+                        echo ' selected="selected"';
+                      echo '>'.$arr['category'].'</option>';
+                    }
+                  }
+                ?>
+
+              </select>
+              <span id="filterButton">
+                Update
+              </span>
+          <tr>
             <th class="status-col">status
             <th class="manage-col">manage
             <th class="name-col">name
             <th class="category-col">category
             <th class="length-col">length
-          </tr>
         </thead>
         <tbody id="list-body">
 
@@ -150,14 +189,15 @@
 
             // get all entries from database
             $sql = "SELECT * FROM inventory";
+            if ($show !== "all") 
+              $sql += "WHERE category = " . $show;
+
             $rs = $link->query($sql);
 
             if ($rs === false) {
-
-              echo '<script>alert("Wrong SQL: '.$sql.' Error: '.$link->error, E_USER_ERROR.'");</script>'; 
+              echo '<script>alert("Unable to link to SQL database.");</script>'; 
 
             } else {
-
               // output all inventory items to table
               while ($arr = $rs->fetch_array(MYSQLI_ASSOC)) {
                 echo '<tr><td class="status-col">';
