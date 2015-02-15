@@ -30,6 +30,10 @@
   } elseif (!empty($length) && (!is_numeric($length) || is_float($length += 0))) {
     echo 'Length must be an integer value.';
 
+  // if length provided, but evaluates to a negative value, display error
+  } elseif (!empty($length) && (($length += 0) < 0)) {
+    echo 'Length cannot be negative. Please enter a positive integer value.';
+
   } else { // if all valid,
 
     // check to see if video title to add already exists in database
