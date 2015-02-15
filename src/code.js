@@ -106,8 +106,8 @@ function addTitle() {
           target = i; 
        }
 
-      // if match not found, add category to drop down menu
-      if (!match) {
+      // if match not found, add category to drop down menu (unless category is blank)
+      if (!match && !category == '') {
         var newOption = document.createElement("option");
         var optionText = document.createTextNode(category);
         newOption.appendChild(optionText);
@@ -116,7 +116,7 @@ function addTitle() {
         if (target === undefined) {
           dropDown.appendChild(newOption);
 
-        } else {
+        } else { // insert alphabetically
           // found help here: stackoverflow.com/questions/4793604/how-to-do-insert-after-in-javascript-without-using-a-library
           dropDown.insertBefore(newOption, dropDown.options[target].nextSibling);
         }
