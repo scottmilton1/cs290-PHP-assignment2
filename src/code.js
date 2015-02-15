@@ -88,6 +88,99 @@ function addTitle() {
       toggleButton.onclick = function() { toggleStatus(this); };
       deleteButton.onclick = function() { deleteTitle(this); };
 
+      // check drop down menu for a match to new video's category
+      var dropDown = document.getElementById("show");
+
+// console.log(dropDown);
+// console.log(dropDown.value);
+
+      var children = dropDown.childNodes;
+
+console.log(dropDown.options.length);
+// console.log(dropDown.options[0].text);
+
+// console.log(children.length);
+// console.log(children[0]);
+// console.log(children[0].nodeValue);
+// console.log(children[0].value);
+// console.log(children[0].innerHTML);
+// console.log(children[0].textContent);
+
+      // var match = false;
+      // var target; // for purposes of insertion
+
+      // for (var i = 0; i < children.length; i++) {
+      for (var i = 0; i < dropDown.options.length; i++) {
+console.log(dropDown.options[i].text);
+      //   console.log(i);
+      //   console.log(children[i]);
+      //   // console.log(children[i]).firstChild.innerHTML;
+      //   console.log(children[i]).nodeValue;
+      //   console.log(children[i]).value;
+
+      }
+
+// console.log(children);
+// console.log(children.length);
+
+//       for (var child in children) {
+
+// console.log(child);
+// console.log(child.value);
+// console.log(child.nodeValue);
+// console.log(child.firstChild);
+// console.log(child.firstChild.value);
+// console.log(child.firstChild.nodeValue);
+
+      //   if (child.value === category) {
+      //    match = true;
+      //   }
+      //   // determine target to maintain alphabetic order when inserting
+      //   // ignore "ALL CATEGORIES" option since it is not in alphabetical order
+      //   if (child.value < category) {
+      //   // if (child.value != "ALL CATEGORIES" && child.value <= category) {
+      //     target = child.nodeValue; 
+
+      //     // might have to set it to the child's number in the parent's children somehow
+      //   }
+      //   console.log("child = " + child + " child.nodeValue = " + child.nodeValue + " child.firstChild = " + child.firstChild + " child.firstChild.nodeValue = " + child.firstChild.nodeValue); 
+      // }
+
+      // alert(target);
+
+      // if match not found, add category to drop down
+      // if (!match) {
+      //   // alert("not recognizing match!");
+
+      //   var newOption = document.createElement("option");
+      //   var optionText = document.createTextNode(category);
+      //   newOption.appendChild(optionText);
+      //   // if target was not set, append new option to end of list
+      //   // or if target does not have a next sibling, do the same (taking advantage of short circuit eval)
+      //   // found help here: stackoverflow.com/questions/4793604/how-to-do-insert-after-in-javascript-without-using-a-library
+      //   // if (target === undefined || !target.nextSibling) {
+      //   // if (!target.nextSibling) {
+      //   //   dropDown.appendChild(newOption);
+      //   //   alert(category + " added to end of drop down! target = " + target);
+      //   // } else {
+      //   //   dropDown.insertBefore(newOption, target.nextSibling);
+      //   //   alert(category + " added to drop down! before " + target.nextSibling.value);
+      //   // }
+
+      //   // better option would be to insert new category in
+      //   // options to maintain alphabetical order
+      // }
+
+      // clear values of form text boxes 
+      document.getElementById("name").value = '';
+      document.getElementById("category").value = '';
+      document.getElementById("length").value = '';
+
+      // output success message
+      // alert(txt.slice(0,13));
+    }
+  }
+
   // request that will add the row to the DB
   xmlhttp.open("GET", "add.php?name=" + name + "&category=" + category + "&length=" + length + "&rand=" + Math.random(), true);
   xmlhttp.send();
@@ -170,61 +263,64 @@ function deleteTitle(ref) {
     if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
 
       var txt = xmlhttp.responseText;
-      alert(txt);
+      // alert(txt);
 
-      if (txt != "Video deleted!")
+      if (txt != "Video deleted!") {
+        alert(txt);
         return;
-
-      // create another xhttp request to see if category still exists in db
-      if (window.XMLHttpRequest) {
-        xmlhttp = new XMLHttpRequest();
-      } else {
-        xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
       }
 
-      // create another callback to check for category match 
-      xmlhttp.onreadystatechange = function() {
-        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+      // // create another xhttp request to see if category still exists in db
+      // if (window.XMLHttpRequest) {
+      //   xmlhttp = new XMLHttpRequest();
+      // } else {
+      //   xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+      // }
 
-          var txt = xmlhttp.responseText;
-          // alert(txt);
-          if (txt = "error") {
-            alert("Unable to connect to database to update category menu. Please refresh the page.");
-            return;
+//       // create another callback to check for category match 
+//       xmlhttp.onreadystatechange = function() {
+//         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
 
-          } else if (txt = "match found") {
-            // category still exists so no need to remove it from drop down menu
-alert("match found in DB - no need to remove option from drop down");
-            return;
+//           var txt = xmlhttp.responseText;
+//           // alert(txt);
+//           if (txt = "error") {
+//             alert("Unable to connect to database to update category menu. Please refresh the page.");
+//             return;
 
-          } else { // no matching category in database, so remove option from drop down
-alert("no matching category in database, so remove option from drop down");
-          }
+//           } else if (txt = "match found") {
+//             // category still exists so no need to remove it from drop down menu
+// alert("match found in DB - no need to remove option from drop down");
+//             return;
 
-          // if (!txt.match(/Video\sadded!/g)) {
-          //   alert(txt);
-          //   return;
+//           } else { // no matching category in database, so remove option from drop down
+// alert("no matching category in database, so remove option from drop down");
+//           }
 
-          var category = document.getElementById("category").value;
+//           // if (!txt.match(/Video\sadded!/g)) {
+//           //   alert(txt);
+//           //   return;
+
+//           // get category information from row selected for removal
+//           var category = //document.getElementById("category").value;
 
           // clear values of form text boxes 
           document.getElementById("name").value = '';
           document.getElementById("category").value = '';
           document.getElementById("length").value = '';
 
-          ouput success message
+          // ouput success message
           alert(txt);
           // alert(txt.slice(0,13));
 
-        } else if (xmlhttp.readyState == 4 && xmlhttp.status != 200) {
-          alert("Unable to connect to server to update category menu. Please refresh the page.");
-          return;
-        }
-      }
+        // } else if (xmlhttp.readyState == 4 && xmlhttp.status != 200) {
+        //   alert("Unable to connect to server to update category menu. Please refresh the page.");
+        //   return;
+        // }
+      // }
 
       // request that will check the DB for a category match
-      xmlhttp.open("GET", "matchCategory.php?category=" + category + "&rand=" + Math.random(), true);
-      xmlhttp.send();
+      // xmlhttp.open("GET", "matchCategory.php?category=" + category + "&rand=" + Math.random(), true);
+      // xmlhttp.send();
 
       // remove corresponding row from table (parent is the td, grandparent is row)
       var listBody = document.getElementById("list-body");

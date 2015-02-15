@@ -10,7 +10,7 @@
   $conn = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
 
   if ($conn->connect_errno) {
-    echo 'error';
+    echo 'error1';
     exit(0);
   }
 
@@ -21,7 +21,7 @@
 
   if ($rs === false) {
     // if unable to insert values in db, output custom error message
-    echo 'error';
+    echo 'error2';
     exit(0);
   } 
 
