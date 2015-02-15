@@ -11,7 +11,6 @@ function init() {
 
 function addTitle() {
 
-  // var listBody = document.getElementById("list-body");
   var name = document.getElementById("name").value;
   var category = document.getElementById("category").value;
   var length = document.getElementById("length").value;
@@ -35,11 +34,9 @@ function addTitle() {
 
       // remove the words "Video added!" from response to get id of new row
       var id = txt.slice(13);
-
-      // clear values of form text boxes 
-      document.getElementById("name").value = '';
-      document.getElementById("category").value = '';
-      document.getElementById("length").value = '';
+      var name = document.getElementById("name").value;
+      var category = document.getElementById("category").value;
+      var length = document.getElementById("length").value;
 
       // create new table row and cells for the added video
       var row = document.createElement("tr");
@@ -91,15 +88,6 @@ function addTitle() {
       toggleButton.onclick = function() { toggleStatus(this); };
       deleteButton.onclick = function() { deleteTitle(this); };
 
-      // ouput success message
-      alert(txt.slice(0,13));
- 
-    } else if (xmlhttp.readyState == 4 && xmlhttp.status != 200) {
-      alert("Problem connecting to server! Error code: " +  xmlhttp.status);
-      return;
-    }
-  }
-
   // request that will add the row to the DB
   xmlhttp.open("GET", "add.php?name=" + name + "&category=" + category + "&length=" + length + "&rand=" + Math.random(), true);
   xmlhttp.send();
@@ -125,11 +113,33 @@ function deleteAll() {
       if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
 
         var txt = xmlhttp.responseText;
+
+        if (txt != "All videos deleted!") {
+          // output error message and return
+          alert(txt);
+          return;
+        }
+
+        // remove all table rows from DOM
+        // I found help here: https://developer.mozilla.org/en-US/docs/Web/API/Node.childNodes
+        while (listBody.firstChild)
+          listBody.removeChild(listBody.firstChild);
+
+        // remove all category options from drop down box on form
+        while (dropDown.firstChild)
+          dropDown.removeChild(dropDown.firstChild);
+
+        // now put back the 'ALL CATEGORIES' option
+        var newOption = document.createElement("option");
+        var optionText = document.createTextNode("ALL CATEGORIES");
+        newOption.appendChild(optionText);
+        dropDown.appendChild(newOption);
+        newOption.setAttribute("value", "all");
+        newOption.setAttribute("selected", "selected");
+
+        // output success message
         alert(txt);
 
-        if (txt != "All videos deleted!")
-          return;
-   
       } else if (xmlhttp.readyState == 4 && xmlhttp.status != 200) {
         alert("Problem connecting to server! Error code: " +  xmlhttp.status);
         return;
@@ -139,23 +149,6 @@ function deleteAll() {
     // request that will remove the rows from the DB
     xmlhttp.open("GET", "delete_all.php?rand=" + Math.random(), true);
     xmlhttp.send();
-
-    // remove all table rows from DOM
-    // I found help here: https://developer.mozilla.org/en-US/docs/Web/API/Node.childNodes
-    while (listBody.firstChild)
-      listBody.removeChild(listBody.firstChild);
-
-    // remove all category options from drop down box on form
-    while (dropDown.firstChild)
-      dropDown.removeChild(dropDown.firstChild);
-
-    // now put back the 'ALL CATEGORIES' option
-    var newOption = document.createElement("option");
-    var optionText = document.createTextNode("ALL CATEGORIES");
-    newOption.appendChild(optionText);
-    dropDown.appendChild(newOption);
-    newOption.setAttribute("value", "all");
-    newOption.setAttribute("selected", "selected");
   }
 }
 
@@ -165,7 +158,6 @@ function deleteTitle(ref) {
 
   // remove the letter from the button id to get the correspondng db row id
   var id = ref.id.slice(1); 
-  var listBody = document.getElementById("list-body");
   var xmlhttp;
 
   if (window.XMLHttpRequest) {
@@ -182,6 +174,61 @@ function deleteTitle(ref) {
 
       if (txt != "Video deleted!")
         return;
+
+      // create another xhttp request to see if category still exists in db
+      if (window.XMLHttpRequest) {
+        xmlhttp = new XMLHttpRequest();
+      } else {
+        xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+      }
+
+      // create another callback to check for category match 
+      xmlhttp.onreadystatechange = function() {
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+
+          var txt = xmlhttp.responseText;
+          // alert(txt);
+          if (txt = "error") {
+            alert("Unable to connect to database to update category menu. Please refresh the page.");
+            return;
+
+          } else if (txt = "match found") {
+            // category still exists so no need to remove it from drop down menu
+alert("match found in DB - no need to remove option from drop down");
+            return;
+
+          } else { // no matching category in database, so remove option from drop down
+alert("no matching category in database, so remove option from drop down");
+          }
+
+          // if (!txt.match(/Video\sadded!/g)) {
+          //   alert(txt);
+          //   return;
+
+          var category = document.getElementById("category").value;
+
+          // clear values of form text boxes 
+          document.getElementById("name").value = '';
+          document.getElementById("category").value = '';
+          document.getElementById("length").value = '';
+
+          ouput success message
+          alert(txt);
+          // alert(txt.slice(0,13));
+
+        } else if (xmlhttp.readyState == 4 && xmlhttp.status != 200) {
+          alert("Unable to connect to server to update category menu. Please refresh the page.");
+          return;
+        }
+      }
+
+      // request that will check the DB for a category match
+      xmlhttp.open("GET", "matchCategory.php?category=" + category + "&rand=" + Math.random(), true);
+      xmlhttp.send();
+
+      // remove corresponding row from table (parent is the td, grandparent is row)
+      var listBody = document.getElementById("list-body");
+      var parentRow = listBody.removeChild(ref.parentNode.parentNode);
  
     } else if (xmlhttp.readyState == 4 && xmlhttp.status != 200) {
       alert("Problem connecting to server! Error code: " +  xmlhttp.status);
@@ -192,10 +239,6 @@ function deleteTitle(ref) {
   // request that will remove the row from the DB
   xmlhttp.open("GET", "delete.php?id=" + id + "&rand=" + Math.random(), true);
   xmlhttp.send();
-
-  // remove corresponding row from table (parent is the td, grandparent is row)
-  var parentRow = listBody.removeChild(ref.parentNode.parentNode);
-
 }
 
 
