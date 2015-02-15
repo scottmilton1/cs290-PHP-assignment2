@@ -104,6 +104,7 @@
                       } else {
                         // output all inventory items to table
                         while ($arr = $rs->fetch_array(MYSQLI_ASSOC)) {
+                          if ($arr['category'] === '') { continue; }
                           echo '<option value="'.$arr['category'].'"';
                           if ($show == $arr['category'])
                             echo ' selected="selected"';
