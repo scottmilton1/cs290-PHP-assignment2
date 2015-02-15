@@ -214,68 +214,36 @@ function deleteTitle(ref) {
     if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
 
       var txt = xmlhttp.responseText;
-      // alert(txt);
+      var id = txt.slice(15);
+      var listBody = document.getElementById("list-body");
+      var refButton = document.getElementById("d" + id);
+      var dropDown = document.getElementById("show");
+      // this is a crazy way of getting the category for the record - there's probably a better way
+      var category = refButton.parentNode.nextSibling.nextSibling.firstChild.textContent;
 
-      if (txt != "Video deleted!") {
-        alert(txt);
+      if (!txt.match(/Video\sdeleted!/g)) {
+        // display error message and exit
+        alert(txt.slice(0,14));
         return;
-      }
 
-      // // create another xhttp request to see if category still exists in db
-      // if (window.XMLHttpRequest) {
-      //   xmlhttp = new XMLHttpRequest();
-      // } else {
-      //   xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
-      // }
+      } else if (txt.slice(14, 15) === "f") {
+        // no matching category in database, so remove option from drop down
+        // iterate over options and delete the matching category
+        for (var i = 0; i < dropDown.options.length; i++) {
+          var current = dropDown.options[i].text;
 
-//       // create another callback to check for category match 
-//       xmlhttp.onreadystatechange = function() {
-//         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-
-//           var txt = xmlhttp.responseText;
-//           // alert(txt);
-//           if (txt = "error") {
-//             alert("Unable to connect to database to update category menu. Please refresh the page.");
-//             return;
-
-//           } else if (txt = "match found") {
-//             // category still exists so no need to remove it from drop down menu
-// alert("match found in DB - no need to remove option from drop down");
-//             return;
-
-//           } else { // no matching category in database, so remove option from drop down
-// alert("no matching category in database, so remove option from drop down");
-//           }
-
-//           // if (!txt.match(/Video\sadded!/g)) {
-//           //   alert(txt);
-//           //   return;
-
-//           // get category information from row selected for removal
-//           var category = //document.getElementById("category").value;
-
-          // clear values of form text boxes 
-          document.getElementById("name").value = '';
-          document.getElementById("category").value = '';
-          document.getElementById("length").value = '';
-
-          // ouput success message
-          alert(txt);
-          // alert(txt.slice(0,13));
-
-        // } else if (xmlhttp.readyState == 4 && xmlhttp.status != 200) {
-        //   alert("Unable to connect to server to update category menu. Please refresh the page.");
-        //   return;
-        // }
-      // }
-
-      // request that will check the DB for a category match
-      // xmlhttp.open("GET", "matchCategory.php?category=" + category + "&rand=" + Math.random(), true);
-      // xmlhttp.send();
+          if (current === category) {
+            dropDown.removeChild(dropDown.options[i]);
+            break;
+          }
+        } 
+      } // matching category in database just falls through
 
       // remove corresponding row from table (parent is the td, grandparent is row)
-      var listBody = document.getElementById("list-body");
-      var parentRow = listBody.removeChild(ref.parentNode.parentNode);
+      var parentRow = listBody.removeChild(refButton.parentNode.parentNode);
+
+      // ouput success message
+      alert(txt.slice(0,14));
  
     } else if (xmlhttp.readyState == 4 && xmlhttp.status != 200) {
       alert("Problem connecting to server! Error code: " +  xmlhttp.status);
