@@ -90,86 +90,37 @@ function addTitle() {
 
       // check drop down menu for a match to new video's category
       var dropDown = document.getElementById("show");
+      var match = false;
+      var target; // for purposes of insertion
 
-// console.log(dropDown);
-// console.log(dropDown.value);
-
-      var children = dropDown.childNodes;
-
-console.log(dropDown.options.length);
-// console.log(dropDown.options[0].text);
-
-// console.log(children.length);
-// console.log(children[0]);
-// console.log(children[0].nodeValue);
-// console.log(children[0].value);
-// console.log(children[0].innerHTML);
-// console.log(children[0].textContent);
-
-      // var match = false;
-      // var target; // for purposes of insertion
-
-      // for (var i = 0; i < children.length; i++) {
+      // iterate over options and look for a match and place to insert alphabetically
+      // found help here: stackoverflow.com/questions/610336/javascript-retrieving-the-text-of-the-selected-option-in-select-element
       for (var i = 0; i < dropDown.options.length; i++) {
-console.log(dropDown.options[i].text);
-      //   console.log(i);
-      //   console.log(children[i]);
-      //   // console.log(children[i]).firstChild.innerHTML;
-      //   console.log(children[i]).nodeValue;
-      //   console.log(children[i]).value;
+        var current = dropDown.options[i].text;
 
+        if (current === category)
+         match = true;
+
+        // determine target to maintain alphabetic order when inserting
+        if (current < category)
+          target = i; 
+       }
+
+      // if match not found, add category to drop down menu
+      if (!match) {
+        var newOption = document.createElement("option");
+        var optionText = document.createTextNode(category);
+        newOption.appendChild(optionText);
+
+        // if target was not set, append new option to end of list
+        if (target === undefined) {
+          dropDown.appendChild(newOption);
+
+        } else {
+          // found help here: stackoverflow.com/questions/4793604/how-to-do-insert-after-in-javascript-without-using-a-library
+          dropDown.insertBefore(newOption, dropDown.options[target].nextSibling);
+        }
       }
-
-// console.log(children);
-// console.log(children.length);
-
-//       for (var child in children) {
-
-// console.log(child);
-// console.log(child.value);
-// console.log(child.nodeValue);
-// console.log(child.firstChild);
-// console.log(child.firstChild.value);
-// console.log(child.firstChild.nodeValue);
-
-      //   if (child.value === category) {
-      //    match = true;
-      //   }
-      //   // determine target to maintain alphabetic order when inserting
-      //   // ignore "ALL CATEGORIES" option since it is not in alphabetical order
-      //   if (child.value < category) {
-      //   // if (child.value != "ALL CATEGORIES" && child.value <= category) {
-      //     target = child.nodeValue; 
-
-      //     // might have to set it to the child's number in the parent's children somehow
-      //   }
-      //   console.log("child = " + child + " child.nodeValue = " + child.nodeValue + " child.firstChild = " + child.firstChild + " child.firstChild.nodeValue = " + child.firstChild.nodeValue); 
-      // }
-
-      // alert(target);
-
-      // if match not found, add category to drop down
-      // if (!match) {
-      //   // alert("not recognizing match!");
-
-      //   var newOption = document.createElement("option");
-      //   var optionText = document.createTextNode(category);
-      //   newOption.appendChild(optionText);
-      //   // if target was not set, append new option to end of list
-      //   // or if target does not have a next sibling, do the same (taking advantage of short circuit eval)
-      //   // found help here: stackoverflow.com/questions/4793604/how-to-do-insert-after-in-javascript-without-using-a-library
-      //   // if (target === undefined || !target.nextSibling) {
-      //   // if (!target.nextSibling) {
-      //   //   dropDown.appendChild(newOption);
-      //   //   alert(category + " added to end of drop down! target = " + target);
-      //   // } else {
-      //   //   dropDown.insertBefore(newOption, target.nextSibling);
-      //   //   alert(category + " added to drop down! before " + target.nextSibling.value);
-      //   // }
-
-      //   // better option would be to insert new category in
-      //   // options to maintain alphabetical order
-      // }
 
       // clear values of form text boxes 
       document.getElementById("name").value = '';
@@ -177,7 +128,7 @@ console.log(dropDown.options[i].text);
       document.getElementById("length").value = '';
 
       // output success message
-      // alert(txt.slice(0,13));
+      alert(txt.slice(0,13));
     }
   }
 
