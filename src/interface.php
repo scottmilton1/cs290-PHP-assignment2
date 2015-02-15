@@ -1,10 +1,12 @@
 <?php 
-  /*
-    CS290 PHP MySQL Assignment
-    Author: Scott Milton
-    Date: 2/15/15
-    Description:  This project is a simple interface to work with a database that tracks a store's inventory of videos.
-  */
+  /***************************************************************************
+   ** CS290 PHP MySQL Assignment
+   ** Author: Scott Milton
+   ** Date: 2/15/15
+   ** Description:  This project is a simple interface to work with a database
+   ** that tracks a store's inventory of videos.
+   ***************************************************************************/
+
   $name = (isset($_GET['name'])) ? $_GET['name'] : '';
   $category = (isset($_GET['category'])) ? $_GET['category'] : '';
   $length = (isset($_GET['length'])) ? $_GET['length'] : '';

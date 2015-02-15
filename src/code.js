@@ -1,13 +1,30 @@
 window.onload = init;
 
+
+/****************************************************************************
+ ** Function:         init()
+ ** Description:      This function runs once the page loads and attaches
+ **                   event handlers to the form buttons.
+ ** Parameters:       none
+ ** Pre-Conditions:   form buttons exist
+ ** Post-Conditions:  event handlers are attached to the two form buttons
+ ***************************************************************************/
 function init() {
-  // attach event handlers to form buttons
   document.getElementById('add-button').onclick = function() { addTitle(); };
   document.getElementById('delete-all').onclick = function() { deleteAll(); };
 }
 
 
 
+/****************************************************************************
+ ** Function:         addTitle()
+ ** Description:      This function adds a video to the database and creates
+ **                   corresponding DOM elements.
+ ** Parameters:       none
+ ** Pre-Conditions:   database, page elements, and add.php exist
+ ** Post-Conditions:  video is added to database and corresponding DOM 
+ **                   elements added to page
+ ***************************************************************************/
 function addTitle() {
 
   var name = document.getElementById('name').value;
@@ -144,6 +161,15 @@ function addTitle() {
 
 
 
+/****************************************************************************
+ ** Function:         deleteAll()
+ ** Description:      This function removes all videos from the database and
+ **                   deletes all corresponding page elements.
+ ** Parameters:       none
+ ** Pre-Conditions:   database, page elements, and delete_all.php exist
+ ** Post-Conditions:  all videos are emoved from DB and corresponding page 
+ **                   elements are deleted
+ ***************************************************************************/
 function deleteAll() {
   // confirm this operation in case user hit button by accident
   if (confirm('Do you really want to delete all videos in the database?')) {
@@ -204,6 +230,16 @@ function deleteAll() {
 
 
 
+/****************************************************************************
+ ** Function:         deleteTitle()
+ ** Description:      This function removes a single video from the database
+ **                   and deletes corresponding page elements from the DOM.
+ ** Parameters:       none
+ ** Pre-Conditions:   database, video to delete, page elements, and 
+ **                   delete.php exist
+ ** Post-Conditions:  video is removed from the DB and corrsponding page 
+ **                   elements have been deleted
+ ***************************************************************************/
 function deleteTitle(ref) {
 
   // remove the letter from the button id to get the correspondng db row id
@@ -267,6 +303,17 @@ function deleteTitle(ref) {
 
 
 
+/****************************************************************************
+ ** Function:         toggleStatis()
+ ** Description:      This function runs changes the status of a single
+ **                   video in the database (i.e.-- availabe to checked out
+ **                   or vice versa) and updates page text to reflect the 
+ **                   change in availability
+ ** Parameters:       ref (referring node)
+ ** Pre-Conditions:   database, page elements, update.php exist
+ ** Post-Conditions:  status of the referring video has been toggled and 
+ **                   corresponding page text has been updated
+ ***************************************************************************/
 function toggleStatus(ref) {
 
   // parent is <td>, grandparent is <tr>, first child is the status column <td>
