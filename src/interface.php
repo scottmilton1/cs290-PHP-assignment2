@@ -92,7 +92,7 @@
                       echo '<option value="all"';
                       if ($show === 'all')
                         echo ' selected="selected"';
-                      echo '>ALL CATEGORIES</option>';
+                      echo '>ALL MOVIES</option>';
 
                       // get all entries from database
                       $sql = "SELECT inventory.category FROM inventory GROUP BY category";
