@@ -112,6 +112,7 @@ function deleteAll() {
   if (confirm("Do you really want to delete all videos in the database?")) {
 
     var listBody = document.getElementById("list-body");
+    var dropDown = document.getElementById("show");
     var xmlhttp;
 
     if (window.XMLHttpRequest) {
@@ -141,9 +142,20 @@ function deleteAll() {
 
     // remove all table rows from DOM
     // I found help here: https://developer.mozilla.org/en-US/docs/Web/API/Node.childNodes
-    while (listBody.firstChild) {
+    while (listBody.firstChild)
       listBody.removeChild(listBody.firstChild);
-    }
+
+    // remove all category options from drop down box on form
+    while (dropDown.firstChild)
+      dropDown.removeChild(dropDown.firstChild);
+
+    // now put back the 'ALL CATEGORIES' option
+    var newOption = document.createElement("option");
+    var optionText = document.createTextNode("ALL CATEGORIES");
+    newOption.appendChild(optionText);
+    dropDown.appendChild(newOption);
+    newOption.setAttribute("value", "all");
+    newOption.setAttribute("selected", "selected");
   }
 }
 
