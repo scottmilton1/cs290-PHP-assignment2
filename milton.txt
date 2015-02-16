@@ -1,1 +1,85 @@
 *** Work log for CS 290 PHP Assignment 2 ***
+
+Start: Sun, 15 Feb 2015 17:21:00 -0800 
+End: Sun, 15 Feb 2015 18:45:00 -0800 
+Tasks: Live testing. Filled in this work log. Submitted assignment.
+
+Start: Sun, 15 Feb 2015 08:06:00 -0800 
+End: Sun, 15 Feb 2015 09:36:00 -0800 
+Tasks: Created .htaccess file and sessions directory on ENGR server per class announcement. Uploaded project files to public_html folder. Modified database connection settings in PHP files.
+
+Start: Sun, 15 Feb 2015 04:50:00 -0800 
+End: Sun, 15 Feb 2015 07:38:51 -0800 
+Tasks: Fixed add function so doesn't add category to drop down if category field empty. Validation and linting. Imported DB to ONID server. Added comment blocks to functions.
+
+Start: Sun, 15 Feb 2015 01:30:00 -0800
+End: Sun, 15 Feb 2015 04:18:08 -0800 
+Tasks: Finished implementation of drop down menu updates when user adds new video or deletes a single video.
+
+Start: Sat, 14 Feb 2015 22:00:00 -0800
+End: Sun, 15 Feb 2015 00:50:00 -0800 
+Tasks: Working on drop down menu refresh modifications for add title and single delete operations.
+
+Start: Sat, 14 Feb 2015 18:00:00 -0800
+End: Sat, 14 Feb 2015 20:40:00 -0800 
+Tasks: Debugging. Working on issues with drop down menu updates for user operations. Added value checking to reject negative values for length field.
+
+Start: Sat, 14 Feb 2015 16:45:00 -0800 
+End: Sat, 14 Feb 2015 17:10:00 -0800 
+Tasks: Testing
+
+Start: Fri, 13 Feb 2015 23:15:00 -0800 
+End: Sat, 14 Feb 2015 01:53:48 -0800 
+Tasks: Finished implementing JS code that adds table row and related DOM elements when user adds a video.
+
+Start: Fri, 13 Feb 2015 20:00:00 -0800 
+End: Fri, 13 Feb 2015 22:26:07 -0800 
+Tasks: Moved functionality to add new video into separate PHP file accessed with AJAX. Fixed check in/out button text to match database values.
+
+Start: Fri, 13 Feb 2015 15:30:00 -0800 
+End: Fri, 13 Feb 2015 18:42:54 -0800 
+Tasks: Added drop down menu and functionality to filter by category. 
+
+Start: Fri, 13 Feb 2015 05:30:00 -0800 
+End: Fri, 13 Feb 2015 06:23:33 -0800 
+Tasks: Added functionality to delete all rows.
+
+Start: Fri, 13 Feb 2015 03:30:00 -0800 
+End: Fri, 13 Feb 2015 05:03:17 -0800 
+Tasks: Added JavaScript functionality that toggles table and button text. Added AJAX and PHP code to update database when video is checked in or out.
+
+Start: Fri, 13 Feb 2015 00:15:00 -0800 
+End: Fri, 13 Feb 2015 03:10:04 -0800 
+Tasks: Finished implementing AJAX and PHP code to remove a single video from the database.
+
+Start: Thu, 12 Feb 2015 22:00:00 -0800 
+End: Thu, 12 Feb 2015 23:18:02 -0800 
+Tasks: Added functionality that inserts new videos in database. Added JavaScript code that removes table row when user clicks on its delete button.
+
+Start: Thu, 12 Feb 2015 18:30:00 -0800 
+End: Thu, 12 Feb 2015 19:20:00 -0800 
+Tasks: Working on PHP form validation.
+
+Start: Thu, 12 Feb 2015 15:00:00 -0800
+End: Thu, 12 Feb 2015 17:00:41 -0800 
+Tasks: Added event handlers to buttons and JavaScript functions with comment outline. Added partial form validation with PHP.
+
+Start: Thu, 12 Feb 2015 00:15:00 -0800
+End: Thu, 12 Feb 2015 03:46:34 -0800 
+Tasks: Added form controls and page elements. Improved styling. Created functionality to connect to database, retrieve inventory items, and display them in view.
+
+Start: Wed, 11 Feb 2015 21:00:00 -0800 
+End: Wed, 11 Feb 2015 22:09:14 -0800 
+Tasks: Read Canvas announcements for assignment. Added basic interface layout and styling.
+
+Start: Wed, 11 Feb 2015 15:45:00 -0800 
+End: Wed, 11 Feb 2015 15:55:26 -0800 
+Tasks: Cloned repo, created directory structure, and empty project files.
+
+Start: Wed, 11 Feb 2015 15:00:00 -0800 
+End: Wed, 11 Feb 2015 15:20:00 -0800 
+Tasks: Read assignment instructions.
+
+Start: Mon, 9 Feb 2015 14:15:00 -0800 
+End: Mon, 9 Feb 2015 14:21:14 -0800 
+Tasks: Created GitHub Repo. Initial commit

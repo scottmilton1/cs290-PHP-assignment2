@@ -38,17 +38,17 @@
             <label>
               Name:
               <input id="name" name="name" placeholder="enter video title"
-                <? echo 'value="'.$name.'"' ?> >
+                <php? echo 'value="'.$name.'"' ?> >
             </label>
             <label>
               Category:
               <input id="category" name="category" placeholder="enter category"
-                <? echo 'value="'.$category.'"' ?> >
+                <php? echo 'value="'.$category.'"' ?> >
             </label>
             <label>
               Length:
               <input id="length" name="length" placeholder="enter length"
-                <? echo 'value="'.$length.'"' ?> >
+                <php? echo 'value="'.$length.'"' ?> >
             </label>
             <br>
             <button id="add-button" type="button">
